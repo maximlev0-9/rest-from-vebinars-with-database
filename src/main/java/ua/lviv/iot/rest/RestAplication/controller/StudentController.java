@@ -31,28 +31,25 @@ public class StudentController {
 
     @GetMapping
     public List<Student> getStudents() {
-        return new LinkedList<Student>(students.values());
+        return studentService.getAllStudents();
     }
 
     @GetMapping(path = "/{id}")
-    public Student getStudent(final @PathVariable("id") Integer studentId) {
-        return students.get(studentId);
+    public ResponseEntity<Student> getStudent(final @PathVariable("id") Integer studentId) {
+//        return students.get(studentId);
+        return studentService.getStudent(studentId);
     }
 
-    @PostMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
 
+    @PostMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
     public Student createStudent(final @RequestBody Student student) {
-        System.out.println(studentService.createStudent(student));
-        student.setId(idCounter.incrementAndGet());
-        students.put(student.getId(), student);
-        return student;
+        return studentService.createStudent(student);
     }
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Student> deleteStudent(@PathVariable("id") Integer studentId) {
-        HttpStatus status = students.remove(studentId) == null ? HttpStatus.NOT_FOUND : HttpStatus.OK;
-
-        return ResponseEntity.status(status).build();
+        studentService.deleteStudent(studentId);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PutMapping(path = "/{id}")
