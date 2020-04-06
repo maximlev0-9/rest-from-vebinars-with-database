@@ -32,4 +32,8 @@ public class StudentService {
         studentRepository.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
+    public List<Student> getAllByName(String firstName){
+        return studentRepository.findAllByFirstName(firstName);
+    }
 }

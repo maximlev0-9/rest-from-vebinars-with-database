@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -21,5 +22,9 @@ public class Student {
     @JoinColumn(name="group_id")
     @JsonIgnoreProperties("students")
     private Group group;
+    @ManyToMany(mappedBy = "students")
+    @JsonIgnoreProperties("students")
+    private Set<Subject> subjects;
+
 
 }
